@@ -16,7 +16,6 @@ A couple of packages involved:
 * bcrypt
 * jsonwebtoken
 * mongoose 
-and...
 * nodemon
 
 Kind of required..
