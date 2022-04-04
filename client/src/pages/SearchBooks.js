@@ -3,21 +3,9 @@ import { Jumbotron, Container, Col, Form, Button, Card, CardColumns } from 'reac
 import { gql, useMutation } from '@apollo/client';
 import Auth from '../utils/auth';
 // import { saveBook, searchGoogleBooks } from '../utils/API';
+import { SAVE_BOOK } from '../utils/mutations.js'
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
 
-const SAVE_BOOK = gql`
-  mutation saveBook($[authors], $description: String!, $title: String!, $bookId: String!, $image: String!, $link: String!) {
-    saveBook(id: $bookId) {
-      id
-      [authors]
-      description
-      title
-      image
-      link
-      }
-    }
-  }
-`;
 
 const SearchBooks = () => {
   // create state for holding returned google api data

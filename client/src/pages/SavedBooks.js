@@ -1,36 +1,19 @@
 import { gql, useQuery } from '@apollo/client';
 import React, { useState, useEffect } from 'react';
 import { Jumbotron, Container, CardColumns, Card, Button } from 'react-bootstrap';
-
+import { REMOVE_BOOK } from '../utils/mutations.js'
+import { GET_ME } from '../utils/queries'
 // import { getMe, deleteBook } from '../utils/API';
 import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
-
-const REMOVE_BOOK = gql`
-  mutation removeBook($bookId: String!) {
-    removeBook(id: $bookId) {
-        id
-      }
-    }
-  }
-`;
 
 const SavedBooks = () => {
   // const [userData, setUserData] = useState({});
 
   // use this to determine if `useEffect()` hook needs to run again
   const userDataLength = Object.keys(userData).length;
-
     // getUserData();
     // [userDataLength]);
-    const GET_ME = gql`
-      {
-        me {
-        _id
-        username
-        email
-      }
-    `;
     const userData = useQuery(GET_ME);
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
