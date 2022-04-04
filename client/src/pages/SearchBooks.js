@@ -1,9 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Jumbotron, Container, Col, Form, Button, Card, CardColumns } from 'react-bootstrap';
-
+import { gql, useMutation } from '@apollo/client';
 import Auth from '../utils/auth';
-import { saveBook, searchGoogleBooks } from '../utils/API';
+// import { saveBook, searchGoogleBooks } from '../utils/API';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
+
+const SAVE_BOOK = gql`
+  mutation saveBook($[authors], $description: String!, $title: String!, $bookId: String!, $image: String!, $link: String!) {
+    saveBook(id: $bookId) {
+      id
+      [authors]
+      description
+      title
+      image
+      link
+      }
+    }
+  }
+`;
 
 const SearchBooks = () => {
   // create state for holding returned google api data
@@ -54,6 +68,7 @@ const SearchBooks = () => {
 
   // create function to handle saving a book to our database
   const handleSaveBook = async (bookId) => {
+    const [savedBooks, { data }] = useMutation(SAVE_BOOK);
     // find the book in `searchedBooks` state by the matching id
     const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
 
@@ -65,7 +80,7 @@ const SearchBooks = () => {
     }
 
     try {
-      const response = await saveBook(bookToSave, token);
+      const response = await savedBooks(bookToSave, token);
 
       if (!response.ok) {
         throw new Error('something went wrong!');
